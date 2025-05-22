@@ -1,4 +1,12 @@
 package org.example.model.road;
 
-public class TwoWayRoad implements Road {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class TwoWayRoad extends Road {
+
 }

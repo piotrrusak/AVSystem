@@ -12,7 +12,8 @@ import org.example.model.road.Direction;
 @AllArgsConstructor
 public class Vehicle {
 
-    private Direction startRoad;
-    private Direction endRoad;
+    private VehicleStatus status;
+    private Direction startDirection;
+    private Direction endDirection;
 
 }

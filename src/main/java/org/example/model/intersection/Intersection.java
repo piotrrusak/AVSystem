@@ -3,8 +3,10 @@ package org.example.model.intersection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.model.IntersectionState;
 import org.example.model.road.Direction;
 import org.example.model.road.Road;
+import org.example.model.vehicle.Vehicle;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class Intersection {
+
+    private IntersectionState intersectionState;
 
     private Road north;
     private Road south;
@@ -25,6 +29,18 @@ public class Intersection {
             case WEST -> this.west;
             case EAST -> this.east;
         };
+    }
+
+    public List<Road> getRoads() {
+        return List.of(this.north, this.south, this.west, this.east);
+    }
+
+    public void addVehicle(Vehicle vehicle) {
+        intersectionState.addVehicle(vehicle);
+    }
+
+    public void removeVehicle(Vehicle vehicle) {
+        intersectionState.removeVehicle(vehicle);
     }
 
 }
