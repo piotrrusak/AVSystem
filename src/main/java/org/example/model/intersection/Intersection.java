@@ -43,4 +43,10 @@ public class Intersection {
         intersectionState.removeVehicle(vehicle);
     }
 
+    public void updateLights() {
+        for(Road road : this.getRoads()) {
+            this.intersectionState.updateIntersectionLightState(road);
+        }
+    }
+
 }

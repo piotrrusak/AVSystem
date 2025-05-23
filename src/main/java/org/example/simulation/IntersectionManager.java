@@ -17,7 +17,7 @@ public class IntersectionManager {
     }
 
     public void step() {
-        this.intersection.getRoads().forEach(this.intersection.getIntersectionState()::setIntersectionLightState);
+        this.intersection.getRoads().forEach(this.intersection.getIntersectionState()::updateIntersectionLightState);
 
         intersection.getRoads().stream().flatMap(road -> road.getEntryLanes().stream()).forEach(lane -> {
             Vehicle vehicle = lane.getNextVehicle();

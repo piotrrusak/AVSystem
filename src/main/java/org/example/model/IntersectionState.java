@@ -27,24 +27,23 @@ public class IntersectionState {
             waitingVehicles.put(direction, new ArrayList<>());
         }
 
-        Map<Direction, Signal> intersectionLightsState = new HashMap<>();
-        for(Direction direction : Direction.values()) {
-            intersectionLightsState.put(direction, Signal.RED);
+        Map<Direction, Signal> roadLightsState = new HashMap<>();
+        for(Direction temp : Direction.values()) {
+            roadLightsState.put(temp, Signal.RED);
         }
-
+        this.intersectionLightsState = roadLightsState;
         this.waitingVehicles = waitingVehicles;
-        this.intersectionLightsState = intersectionLightsState;
     }
 
     public void addVehicle(Vehicle vehicle) {
-        this.waitingVehicles.get(vehicle.getStartDirection()).add(vehicle);
+        this.waitingVehicles.get(vehicle.getRoute().getStart()).add(vehicle);
     }
 
     public void removeVehicle(Vehicle vehicle) {
-        this.waitingVehicles.get(vehicle.getEndDirection()).remove(vehicle);
+        this.waitingVehicles.get(vehicle.getRoute().getStart()).remove(vehicle);
     }
 
-    public void setIntersectionLightState(Road road) {
+    public void updateIntersectionLightState(Road road) {
         this.intersectionLightsState.put(road.getDirection(), road.getTrafficLight().getState());
     }
 

@@ -23,4 +23,8 @@ public class Lane {
         return this.vehicles.poll();
     }
 
+    public Lane() {
+        this.vehicles = new LinkedList<>();
+    }
+
 }

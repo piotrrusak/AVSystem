@@ -1,9 +1,25 @@
 package org.example.model.light;
 
-public interface TrafficLight {
+import lombok.Getter;
+import lombok.Setter;
 
-    Signal getState();
+@Getter
+@Setter
+public class TrafficLight {
 
-    Signal toggleNextState();
+    private Signal state;
+
+    public TrafficLight() {
+        this.state = Signal.RED;
+    }
+
+    public void toggleNextState() {
+        switch(this.state) {
+            case Signal.GREEN -> state = Signal.RED;
+            case Signal.RED -> state = Signal.YELLOW;
+            case Signal.YELLOW -> state = Signal.GREEN;
+            default -> state = Signal.RED;
+        }
+    }
 
 }

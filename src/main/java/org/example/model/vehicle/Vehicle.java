@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.model.Route;
 import org.example.model.road.Direction;
 
 @Getter
@@ -12,8 +13,8 @@ import org.example.model.road.Direction;
 @AllArgsConstructor
 public class Vehicle {
 
+    private String vehicleId;
     private VehicleStatus status;
-    private Direction startDirection;
-    private Direction endDirection;
+    private Route route;
 
 }
