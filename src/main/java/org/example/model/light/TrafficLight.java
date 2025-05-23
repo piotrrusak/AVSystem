@@ -15,10 +15,10 @@ public class TrafficLight {
 
     public void toggleNextState() {
         switch(this.state) {
-            case Signal.GREEN -> state = Signal.RED;
-            case Signal.RED -> state = Signal.YELLOW;
-            case Signal.YELLOW -> state = Signal.GREEN;
-            default -> state = Signal.RED;
+            case Signal.RED -> state = Signal.RED_YELLOW;
+            case Signal.RED_YELLOW -> state = Signal.GREEN;
+            case Signal.GREEN -> state = Signal.YELLOW;
+            case Signal.YELLOW -> state = Signal.RED;
         }
     }
 

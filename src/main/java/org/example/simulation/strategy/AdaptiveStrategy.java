@@ -22,6 +22,13 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
     private int currentStep = 0;
     private int currentGreenDuration = minGreenTime;
 
+    public AdaptiveStrategy(int minGreenTime, int maxGreenTime, int transitionTime, double vehicleWeight) {
+        this.minGreenTime = minGreenTime;
+        this.maxGreenTime = maxGreenTime;
+        this.transitionTime = transitionTime;
+        this.vehicleWeight = vehicleWeight;
+    }
+
     @Override
     public void setup(Intersection intersection) {
         for (Road road : intersection.getRoads()) {
@@ -33,8 +40,6 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
             }
         }
         intersection.updateLights();
-        // Calculate initial green duration based on waiting vehicles
-        // Almost always will be = min time since, we add vehicles after simulation is set up
         currentGreenDuration = calculateGreenTime(intersection);
     }
 
@@ -45,7 +50,6 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
         if (currentStep >= currentGreenDuration && !inTransitionState) {
             trafficLights.forEach(TrafficLight::toggleNextState);
             inTransitionState = true;
-            currentStep = 0;
         } else if (currentStep >= transitionTime && inTransitionState) {
             trafficLights.forEach(TrafficLight::toggleNextState);
             inTransitionState = false;
@@ -80,6 +84,7 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
         int additionalTime = (int) (totalWaitingVehicles * vehicleWeight);
         int calculatedDuration = minGreenTime + additionalTime;
 
+        System.out.println(totalWaitingVehicles);
 
         return Math.min(calculatedDuration, maxGreenTime);
     }

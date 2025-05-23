@@ -32,9 +32,10 @@ public class Main {
 
         IntersectionState intersectionState = new IntersectionState();
 
-        Intersection intersection = new Intersection(intersectionState, new OneLaneTwoWayRoad(Direction.NORTH), new OneLaneTwoWayRoad(Direction.EAST), new OneLaneTwoWayRoad(Direction.SOUTH), new OneLaneTwoWayRoad(Direction.WEST));
+        Intersection intersection
+                = new Intersection(intersectionState, new OneLaneTwoWayRoad(Direction.NORTH), new OneLaneTwoWayRoad(Direction.EAST), new OneLaneTwoWayRoad(Direction.SOUTH), new OneLaneTwoWayRoad(Direction.WEST));
 
-        TrafficLightStrategy strategy = new AdaptiveStrategy();
+        TrafficLightStrategy strategy = new AdaptiveStrategy(1, 10, 1, 1);
         strategy.setup(intersection);
 
         VehicleManager vehicleManager = new VehicleManager();
@@ -51,7 +52,10 @@ public class Main {
                                                                            new Route(((AddVehicle) command).getStartRoadAsDirection(), ((AddVehicle) command).getEndRoadAsDirection())
                 ));
             } else {
+
                 System.out.println("Step");
+
+                System.out.println(intersection.getIntersectionState().getIntersectionLightsState());
 
                 List<Vehicle> leftVehicles = vehicleManager.step(intersection);
 
