@@ -8,7 +8,6 @@ import org.example.model.road.Direction;
 import org.example.model.road.Road;
 
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public class AdaptiveStrategy implements TrafficLightStrategy {
@@ -83,8 +82,6 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
 
         int additionalTime = (int) (totalWaitingVehicles * vehicleWeight);
         int calculatedDuration = minGreenTime + additionalTime;
-
-        System.out.println(totalWaitingVehicles);
 
         return Math.min(calculatedDuration, maxGreenTime);
     }

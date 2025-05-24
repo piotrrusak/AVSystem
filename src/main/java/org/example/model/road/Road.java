@@ -15,6 +15,7 @@ import java.util.Map;
 public abstract class Road {
 
     protected Direction direction;
+
     protected TrafficLight trafficLight;
 
     protected List<Lane> entryLanes;

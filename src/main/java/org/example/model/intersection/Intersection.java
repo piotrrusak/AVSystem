@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.model.IntersectionState;
 import org.example.model.road.Direction;
+import org.example.model.road.OneLaneTwoWayRoad;
 import org.example.model.road.Road;
 import org.example.model.vehicle.Vehicle;
 
@@ -12,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class Intersection {
 
     private IntersectionState intersectionState;
@@ -21,6 +21,14 @@ public class Intersection {
     private Road south;
     private Road west;
     private Road east;
+
+    public Intersection(IntersectionState intersectionState) {
+        this.intersectionState = intersectionState;
+        this.north = new OneLaneTwoWayRoad(Direction.NORTH);
+        this.south = new OneLaneTwoWayRoad(Direction.SOUTH);
+        this.west = new OneLaneTwoWayRoad(Direction.WEST);
+        this.east = new OneLaneTwoWayRoad(Direction.EAST);
+    }
 
     public Road getRoadByDirection(Direction direction) {
         return switch(direction) {
