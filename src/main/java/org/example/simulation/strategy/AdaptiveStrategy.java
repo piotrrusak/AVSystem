@@ -75,24 +75,22 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
     }
 
     private int calculateGreenTime(Intersection intersection) {
-        return 1;
-//        int totalWaitingVehicles = 0;
-//        Signal currentState = null;
-//
-//        for (Road road : intersection.getRoads()) {
-//            Signal state = road.getTrafficLights().getState();
-//            if (currentState == null) {
-//                currentState = state;
-//            }
-//
-//            if ((state == Signal.RED && currentState == Signal.RED) || (state == Signal.GREEN && currentState == Signal.GREEN)) {
-//                totalWaitingVehicles += intersection.getIntersectionState().getWaitingVehicles().get(road.getDirection()).size();
-//            }
-//        }
-//
-//        int additionalTime = (int) (totalWaitingVehicles * vehicleWeight);
-//        int calculatedDuration = minGreenTime + additionalTime;
-//
-//        return Math.min(calculatedDuration, maxGreenTime);
+        int totalWaitingVehicles = 0;
+
+        for (Road road : intersection.getRoads()) {
+            for(Direction direction : Direction.values()) {
+                if(road.getDirection() == direction) {
+                    continue;
+                }
+                if ((road.getTrafficLights().get(direction).getState() == Signal.RED)) {
+                    totalWaitingVehicles += intersection.getIntersectionState().getWaitingVehicles().get(road.getDirection()).size();
+                }
+            }
+        }
+
+        int additionalTime = (int) (totalWaitingVehicles * vehicleWeight);
+        int calculatedDuration = minGreenTime + additionalTime;
+
+        return Math.min(calculatedDuration, maxGreenTime);
     }
 }
