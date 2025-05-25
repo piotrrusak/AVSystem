@@ -25,9 +25,6 @@ public abstract class Road {
         this.entryLanes = List.of(new Lane());
         this.trafficLights = new HashMap<>();
         for(Direction temp : Direction.values()) {
-            if(temp == direction) {
-                continue;
-            }
             this.trafficLights.put(temp, new TrafficLight());
         }
     }

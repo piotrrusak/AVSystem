@@ -24,10 +24,18 @@ public class EveryTickToggleStrategyTest {
     public void setupTest() {
         everyTickToggleStrategy.setup(intersection);
 
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
     }
 
     @Test
@@ -35,30 +43,62 @@ public class EveryTickToggleStrategyTest {
         everyTickToggleStrategy.setup(intersection);
         everyTickToggleStrategy.step(intersection);
 
-        Assertions.assertEquals(Signal.YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertEquals(Signal.YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertEquals(Signal.RED_YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
-        Assertions.assertEquals(Signal.RED_YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.RED_YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
 
         everyTickToggleStrategy.step(intersection);
 
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
 
         everyTickToggleStrategy.step(intersection);
 
-        Assertions.assertEquals(Signal.RED_YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertEquals(Signal.RED_YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertEquals(Signal.YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
-        Assertions.assertEquals(Signal.YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.RED_YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
 
         everyTickToggleStrategy.step(intersection);
 
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
     }
 }

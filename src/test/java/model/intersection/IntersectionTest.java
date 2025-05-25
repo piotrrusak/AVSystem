@@ -4,7 +4,9 @@ import org.example.model.IntersectionState;
 import org.example.model.Route;
 import org.example.model.intersection.Intersection;
 import org.example.model.light.Signal;
+import org.example.model.light.TrafficLight;
 import org.example.model.road.Direction;
+import org.example.model.road.Road;
 import org.example.model.vehicle.Vehicle;
 import org.example.model.vehicle.VehicleStatus;
 import org.junit.jupiter.api.Assertions;
@@ -12,6 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IntersectionTest {
 
@@ -43,12 +47,21 @@ public class IntersectionTest {
 
     @Test
     public void updateIntersectionLightStateTest() {
-        intersection.getRoads().forEach(key -> key.getTrafficLight().setState(Signal.GREEN));
 
-        Arrays.stream(Direction.values()).forEach(key -> Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(key)));
+        for(Road road : intersection.getRoads()) {
+            Map<Direction, TrafficLight> lightMap = new HashMap<>();
+            for(Direction direction : Direction.values()) {
+                TrafficLight trafficLight = new TrafficLight();
+                trafficLight.setState(Signal.GREEN);
+                lightMap.put(direction, trafficLight);
+            }
+            road.setTrafficLights(lightMap);
+        }
 
         intersection.updateLights();
 
-        Arrays.stream(Direction.values()).forEach(key -> Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(key)));
+        Arrays.stream(Direction.values()).forEach(key -> Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(key).get(Direction.SOUTH)));
+        Arrays.stream(Direction.values()).forEach(key -> Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(key).get(Direction.WEST)));
+        Arrays.stream(Direction.values()).forEach(key -> Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(key).get(Direction.EAST)));
     }
 }

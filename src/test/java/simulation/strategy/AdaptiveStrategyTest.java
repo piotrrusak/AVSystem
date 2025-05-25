@@ -27,10 +27,18 @@ public class AdaptiveStrategyTest {
     public void setupTest() {
         this.adaptiveStrategy.setup(intersection);
 
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
     }
 
     @Test
@@ -39,22 +47,38 @@ public class AdaptiveStrategyTest {
 
         adaptiveStrategy.step(intersection);
 
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
 
         adaptiveStrategy.step(intersection);
 
-        Assertions.assertNotEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertNotEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertNotEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
-        Assertions.assertNotEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.RED_YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
     }
 
     @Test
     public void maxGreenTimeTest() {
-        Vehicle vehicle = new Vehicle("vehicle", VehicleStatus.WAITING, new Route(Direction.NORTH, Direction.SOUTH));
+        Vehicle vehicle = new Vehicle("vehicle", VehicleStatus.WAITING, new Route(Direction.EAST, Direction.SOUTH));
         for(int i = 0; i < 10; i++) {
             intersection.addVehicle(vehicle);
         }
@@ -65,22 +89,38 @@ public class AdaptiveStrategyTest {
             adaptiveStrategy.step(intersection);
         }
 
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
-        Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
 
         adaptiveStrategy.step(intersection);
 
-        Assertions.assertNotEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH));
-        Assertions.assertNotEquals(Signal.GREEN, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.SOUTH));
-        Assertions.assertNotEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.WEST));
-        Assertions.assertNotEquals(Signal.RED, intersection.getIntersectionState().getIntersectionLightsState().get(Direction.EAST));
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                if(direction == Direction.NORTH || direction == Direction.SOUTH) {
+                    Assertions.assertEquals(Signal.YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                } else {
+                    Assertions.assertEquals(Signal.RED_YELLOW, intersection.getIntersectionState().getIntersectionLightsState().get(direction).get(temp));
+                }
+            }
+        }
     }
 
     @Test
     public void caluculateGreenTimeTest() {
-        Vehicle vehicle = new Vehicle("vehicle", VehicleStatus.WAITING, new Route(Direction.NORTH, Direction.SOUTH));
+        Vehicle vehicle = new Vehicle("vehicle", VehicleStatus.WAITING, new Route(Direction.EAST, Direction.SOUTH));
         for(int i = 0; i < 6; i++) {
             intersection.addVehicle(vehicle);
         }

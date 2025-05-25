@@ -46,9 +46,9 @@ public class Main {
             if(command instanceof AddVehicle) {
                 // Dodawanie nowego pojazdu zczytanego z jsona
                 intersection.addVehicle(new Vehicle(
-                                                                           ((AddVehicle) command).getVehicleId(),
-                                                                           VehicleStatus.WAITING,
-                                                                           new Route(((AddVehicle) command).getStartRoadAsDirection(), ((AddVehicle) command).getEndRoadAsDirection())
+                       ((AddVehicle) command).getVehicleId(),
+                       VehicleStatus.WAITING,
+                       new Route(((AddVehicle) command).getStartRoadAsDirection(), ((AddVehicle) command).getEndRoadAsDirection())
                 ));
             } else {
 

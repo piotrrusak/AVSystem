@@ -22,7 +22,6 @@ public class EveryTickToggleStrategy implements TrafficLightStrategy {
 
                 intersection.updateLights();
             }
-
         }
     }
 

@@ -1,8 +1,6 @@
 package org.example.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.model.light.Signal;
 import org.example.model.road.Direction;
@@ -51,9 +49,6 @@ public class IntersectionState {
 
     public void updateIntersectionLightState(Road road) {
         for(Direction direction : Direction.values()) {
-            if(road.getDirection() == direction) {
-                continue;
-            }
             intersectionLightsState.get(road.getDirection()).put(direction, road.getTrafficLights().get(direction).getState());
         }
     }

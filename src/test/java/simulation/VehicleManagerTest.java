@@ -36,7 +36,7 @@ public class VehicleManagerTest {
     void testStepWithVehiclesAtRedLight() {
         Vehicle vehicle = new Vehicle("vehicle1", VehicleStatus.WAITING, new Route(Direction.NORTH, Direction.SOUTH));
 
-        intersection.getIntersectionState().getIntersectionLightsState().put(Direction.NORTH, Signal.RED);
+        intersection.getIntersectionState().getIntersectionLightsState().get(Direction.NORTH).put(Direction.SOUTH, Signal.RED);
         intersection.addVehicle(vehicle);
 
         List<Vehicle> leftVehicles = vehicleManager.step(intersection);
@@ -49,8 +49,9 @@ public class VehicleManagerTest {
     void testStepWithVehiclesAtGreenLight() {
         Vehicle vehicle = new Vehicle("vehicle1", VehicleStatus.WAITING, new Route(Direction.NORTH, Direction.SOUTH));
 
-        intersection.getRoadByDirection(Direction.NORTH).getTrafficLight().setState(Signal.GREEN);
+        intersection.getRoadByDirection(Direction.NORTH).getTrafficLights().get(Direction.SOUTH).setState(Signal.GREEN);
         intersection.addVehicle(vehicle);
+        intersection.updateLights();
         vehicleManager.step(intersection);
 
         assertEquals(VehicleStatus.IN_INTERSECTION, vehicle.getStatus());
@@ -58,8 +59,10 @@ public class VehicleManagerTest {
 
     @Test
     void testStepWithConflict() {
-        intersection.getRoadByDirection(Direction.NORTH).getTrafficLight().setState(Signal.GREEN);
-        intersection.getRoadByDirection(Direction.SOUTH).getTrafficLight().setState(Signal.GREEN);
+        intersection.getRoadByDirection(Direction.NORTH).getTrafficLights().get(Direction.SOUTH).setState(Signal.GREEN);
+        intersection.getRoadByDirection(Direction.SOUTH).getTrafficLights().get(Direction.WEST).setState(Signal.GREEN);
+
+        intersection.updateLights();
 
         Vehicle vehicle1 = new Vehicle("vehicle1", VehicleStatus.WAITING, new Route(Direction.NORTH, Direction.SOUTH));
         Vehicle vehicle2 = new Vehicle("vehicle2", VehicleStatus.WAITING, new Route(Direction.SOUTH, Direction.WEST));

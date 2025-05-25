@@ -36,9 +36,6 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
     public void setup(Intersection intersection) {
         for(Road road : intersection.getRoads()) {
             for(Direction direction : Direction.values()) {
-                if(road.getDirection() == direction) {
-                    continue;
-                }
                 if(road.getDirection() == Direction.NORTH || road.getDirection() == Direction.SOUTH) {
                     road.getTrafficLights().get(direction).setState(Signal.GREEN);
                 } else {
@@ -78,14 +75,7 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
         int totalWaitingVehicles = 0;
 
         for (Road road : intersection.getRoads()) {
-            for(Direction direction : Direction.values()) {
-                if(road.getDirection() == direction) {
-                    continue;
-                }
-                if ((road.getTrafficLights().get(direction).getState() == Signal.RED)) {
-                    totalWaitingVehicles += intersection.getIntersectionState().getWaitingVehicles().get(road.getDirection()).size();
-                }
-            }
+            totalWaitingVehicles += road.getEntryLanes().stream().map(lane -> lane.getVehicles().size()).reduce(0, Integer::sum);
         }
 
         int additionalTime = (int) (totalWaitingVehicles * vehicleWeight);
