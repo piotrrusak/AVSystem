@@ -1,9 +1,13 @@
 package org.example.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.example.model.road.Direction;
 
 import java.util.Objects;
 
+@Getter
+@Setter
 public class Route {
     private final Direction start;
     private final Direction end;
@@ -11,14 +15,6 @@ public class Route {
     public Route(Direction startDirection, Direction endDirection) {
         this.start = startDirection;
         this.end = endDirection;
-    }
-
-    public Direction getStart() {
-        return start;
-    }
-
-    public Direction getEnd() {
-        return end;
     }
 
     public boolean hasRoutePriority(Route other) {

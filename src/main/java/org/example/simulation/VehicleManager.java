@@ -1,11 +1,8 @@
 package org.example.simulation;
 
-import org.example.model.IntersectionState;
 import org.example.model.intersection.Intersection;
 import org.example.model.light.Signal;
-import org.example.model.road.Direction;
 import org.example.model.road.Lane;
-import org.example.model.road.Road;
 import org.example.model.vehicle.Vehicle;
 import org.example.model.vehicle.VehicleStatus;
 

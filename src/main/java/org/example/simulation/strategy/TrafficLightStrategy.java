@@ -4,7 +4,7 @@ import org.example.model.intersection.Intersection;
 
 public interface TrafficLightStrategy {
 
-    public void setup(Intersection intersection);
+    void setup(Intersection intersection);
 
-    public void step(Intersection intersection);
+    void step(Intersection intersection);
 }
