@@ -8,4 +8,164 @@ Recruitment task for AVSystem
 
 # Run the program
 
-mvn compile exec:java -Dexec.args="<full_input_filepath.json> <full_output_filepath.json>"
+```
+    mvn compile exec:java -Dexec.args="<full_input_filepath.json> <full_output_filepath.json>"
+```
+
+# AVSystem – Inteligentne światła drogowe
+
+## Opis projektu
+
+Projekt przedstawia **symulację inteligentnych świateł drogowych** na skrzyżowaniu z czterema drogami dojazdowymi (północ, południe, wschód, zachód).
+System dynamicznie dostosowuje cykle świateł w zależności od aktualnego natężenia ruchu, bazując na strategii adaptacyjnej. Zaimplementowana jest również strategia
+zmieniająca światła co każdy krok symulacji. Zaimplementowany jest system pasów ruchu (pare pasów na jednej drodze dojazdowej do skrzyżowania). Zaimplementowany jest
+w miare rozbudowany pakiet testów pokrywających kluczowe funkcjonalności.
+
+## Główne założenia
+
+System:
+- Modeluje skrzyżowanie z czterema drogami dojazdowymi
+- Symuluje cykle świateł (zielone, żółte, czerwone)
+- Unika sytuacji konfliktowych (np. kolidujących zielonych świateł)
+- Dostosowuje długość zielonego światła w oparciu o liczbę pojazdów oczekujących
+- Pozwala na wczytanie sekwencji komend z pliku JSON
+- Generuje plik wynikowy z informacją o pojazdach, które opuściły skrzyżowanie w ramach każdego kroku symulacji.
+
+## Struktura projektu
+
+```
+    src/
+    ├── main/
+    │   ├── java/
+    │   │   └── org/example/
+    │   │       ├── io
+    │   │       │   ├── DataLoader.java
+    │   │       │   └── DataSaver.java
+    │   │       ├── model
+    │   │       │   ├── command
+    │   │       │   │   ├── AddVehicle.java
+    │   │       │   │   ├── Command.java
+    │   │       │   │   └── Step.java
+    │   │       │   ├── intersection
+    │   │       │   │   └── Intersection.java
+    │   │       │   ├── light
+    │   │       │   │   ├── Signal.java
+    │   │       │   │   └── TrafficLight.java
+    │   │       │   ├── loader
+    │   │       │   │   ├── CommandListWrapper.java
+    │   │       │   │   ├── StepStatus.java
+    │   │       │   │   └── StepStatuses.java
+    │   │       │   ├── road
+    │   │       │   │   ├── Direction.java
+    │   │       │   │   ├── Lane.java
+    │   │       │   │   ├── OneLaneTwoWayRoad.java
+    │   │       │   │   └── Road.java
+    │   │       │   ├── vehicle
+    │   │       │   │   ├── Vehicle.java
+    │   │       │   │   └── VehicleStatus.java
+    │   │       │   ├── IntersectionState.java
+    │   │       │   └── Route.java
+    │   │       ├── simulation
+    │   │       │   ├── strategy
+    │   │       │   │   ├── AdaptiveStrategy.java
+    │   │       │   │   ├── EveryTickToggleStrategy.java
+    │   │       │   │   └── TrafficLightStrategy.java
+    │   │       │   └── VehicleManager.java
+    │   │       └── Main.java
+    │   └── resources/
+    │       ├── input_data.json
+    │       └── output_data.json
+    └── test
+        └── java
+            ├── model
+            │   ├── intersection
+            │   │   └── IntersectionTest.java
+            │   ├── light
+            │   │   └── TrafficLightTest.java
+            │   └── RouteTest.java
+            └── simulation
+                ├── strategy
+                │   ├── AdaptiveStrategyTest.java
+                │   └── EveryTickToggleStrategyTest.java
+                ├── VehicleManagerTest.java
+```
+
+## Uruchomienie
+
+```
+    mvn compile exec:java -Dexec.args="<full_input_filepath.json> <full_output_filepath.json>"
+```
+
+## Format wejścia (input.json)
+
+```json
+{
+  "commands": [
+    {
+      "type": "addVehicle",
+      "vehicleId": "vehicle1",
+      "startRoad": "south",
+      "endRoad": "north"
+    },
+    {
+      "type": "step"
+    }
+  ]
+}
+```
+
+## Format wyjścia (output.json)
+
+```json
+{
+  "stepStatuses" : [ 
+    {
+      "leftVehicles" : [ "vehicle2", "vehicle1" ]
+    },
+    {
+      "leftVehicles" : [ ]
+    },
+    {
+      "leftVehicles" : [ "vehicle3" ]
+    },
+    {
+      "leftVehicles" : [ "vehicle4" ]
+    }
+  ]
+}
+```
+
+## Algorytm sterowania światłami
+
+### Strategia adaptacyjna (AdaptiveStrategy)
+
+- Analizuje liczbę pojazdów na każdym kierunku
+- Wybiera kierunek z największym natężeniem ruchu
+- Dostosowuje czas zielonego światła proporcjonalnie do natężenia
+- Gwarantuje minimalny czas zielonego światła (minGreenTime)
+- Zapobiega przesterowaniu (maxGreenTime)
+- Uwzględnia czas przejściowy (transitionTime) między fazami
+
+#### Parametry konfiguracyjne
+
+- minGreenTime: Minimalny czas zielonego światła (domyślnie 5)
+- maxGreenTime: Maksymalny czas zielonego światła (domyślnie 15)
+- transitionTime: Czas żółtego światła (domyślnie 2)
+- vehicleWeight: Waga pojedynczego pojazdu (domyślnie 1)
+
+### Strategia zmiany co tick (EveryTickToggleStrategy)
+
+- Nie analizuje liczby pojazdów
+- Co tick zmienia wszystkie światła
+- Na każdym zielonym może przejechać jeden samochód z jednego pasa ruchu
+
+## Testowanie
+
+```
+    mvn clean test
+```
+
+## Możliwości rozbudowy
+
+- Inny system przekierowywania pojazdów na liniach jazdy
+- Inne strategie zmiany świateł
