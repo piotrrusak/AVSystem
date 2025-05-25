@@ -32,7 +32,7 @@ public class Main {
         CommandListWrapper commandListWrapper = DataLoader.LoadJsonData(inputPath);
         IntersectionState intersectionState = new IntersectionState();
         Intersection intersection = new Intersection(intersectionState);
-        TrafficLightStrategy strategy = new AdaptiveStrategy(1, 10, 1, 1);
+        TrafficLightStrategy strategy = new AdaptiveStrategy(1, 10, 1, 0.25);
 
         strategy.setup(intersection);
 
@@ -45,7 +45,7 @@ public class Main {
 
             if(command instanceof AddVehicle) {
                 // Dodawanie nowego pojazdu zczytanego z jsona
-                intersection.getIntersectionState().addVehicle(new Vehicle(
+                intersection.addVehicle(new Vehicle(
                                                                            ((AddVehicle) command).getVehicleId(),
                                                                            VehicleStatus.WAITING,
                                                                            new Route(((AddVehicle) command).getStartRoadAsDirection(), ((AddVehicle) command).getEndRoadAsDirection())
@@ -57,6 +57,9 @@ public class Main {
                     firstStep = false;
                 }
 
+                // Przejście do następnego etapu świateł (w zależności od strategii)
+                strategy.step(intersection);
+
                 // Zmiana statusu pojazdów, które w tym kroku opuszczą skrzyżowanie na IN_INTERSECTION
                 List<Vehicle> leftVehicles = vehicleManager.step(intersection);
 
@@ -65,9 +68,6 @@ public class Main {
 
                 // Usuwanie pojazdów z statusem IN_INTERSECTION
                 leftVehicles.forEach(intersection::removeVehicle);
-
-                // Przejście do następnego etapu świateł (w zależności od strategii)
-                strategy.step(intersection);
 
             }
 

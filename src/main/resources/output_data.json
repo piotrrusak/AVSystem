@@ -4,8 +4,8 @@
   }, {
     "leftVehicles" : [ ]
   }, {
-    "leftVehicles" : [ ]
+    "leftVehicles" : [ "vehicle3" ]
   }, {
-    "leftVehicles" : [ ]
+    "leftVehicles" : [ "vehicle4" ]
   } ]
 }

@@ -33,10 +33,10 @@ public class Intersection {
 
     public Road getRoadByDirection(Direction direction) {
         return switch(direction) {
-            case NORTH -> this.north;
-            case SOUTH -> this.south;
-            case WEST -> this.west;
-            case EAST -> this.east;
+            case Direction.NORTH -> this.north;
+            case Direction.SOUTH -> this.south;
+            case Direction.WEST -> this.west;
+            case Direction.EAST -> this.east;
         };
     }
 
@@ -45,10 +45,20 @@ public class Intersection {
     }
 
     public void addVehicle(Vehicle vehicle) {
+        if(vehicle.getRoute().isTurningLeft() || vehicle.getRoute().isGoingForward()) {
+            this.getRoads().stream().filter(road -> road.getDirection().equals(vehicle.getRoute().getStart())).forEach(road -> road.getEntryLanes().getFirst().addVehicle(vehicle));
+        } else if(vehicle.getRoute().isTurningRight() || vehicle.getRoute().isGoingForward()) {
+            this.getRoads().stream().filter(road -> road.getDirection().equals(vehicle.getRoute().getStart())).forEach(road -> road.getEntryLanes().getLast().addVehicle(vehicle));
+        }
         intersectionState.addVehicle(vehicle);
     }
 
     public void removeVehicle(Vehicle vehicle) {
+        this.getRoadByDirection(vehicle.getRoute().getStart())
+                .getEntryLanes().stream()
+                .filter(lane -> lane.getVehicles().contains(vehicle))
+                .findFirst()
+                .ifPresent(lane -> lane.getVehicles().remove(vehicle));
         intersectionState.removeVehicle(vehicle);
     }
 
@@ -56,13 +66,5 @@ public class Intersection {
         for(Road road : this.getRoads()) {
             this.intersectionState.updateIntersectionLightState(road);
         }
-    }
-
-    public Signal getIntersectionLightStateByDirection(Direction direction) {
-        return this.getIntersectionState().getIntersectionLightsState().get(direction);
-    }
-
-    public List<Vehicle> getWaitingVehiclesByDirection(Direction direction) {
-        return this.getIntersectionState().getWaitingVehicles().get(direction);
     }
 }

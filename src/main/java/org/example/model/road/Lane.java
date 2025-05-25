@@ -20,7 +20,7 @@ public class Lane {
     }
 
     public Vehicle getNextVehicle() {
-        return this.vehicles.poll();
+        return this.vehicles.peek();
     }
 
     public Lane() {

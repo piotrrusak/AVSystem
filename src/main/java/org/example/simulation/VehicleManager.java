@@ -4,6 +4,7 @@ import org.example.model.IntersectionState;
 import org.example.model.intersection.Intersection;
 import org.example.model.light.Signal;
 import org.example.model.road.Direction;
+import org.example.model.road.Lane;
 import org.example.model.road.Road;
 import org.example.model.vehicle.Vehicle;
 import org.example.model.vehicle.VehicleStatus;
@@ -16,9 +17,10 @@ public class VehicleManager {
 
         List<Vehicle> leavingVehicles = new ArrayList<>();
 
-        var readyToGo = Arrays.stream(Direction.values())
-                .filter(direction -> intersection.getIntersectionLightStateByDirection(direction).equals(Signal.GREEN))
-                .flatMap(key -> intersection.getWaitingVehiclesByDirection(key).stream()).toList();
+        var readyToGo = intersection.getRoads().stream()
+                .filter(road -> road.getTrafficLight().getState() == Signal.GREEN)
+                .flatMap(road -> road.getEntryLanes().stream().map(Lane::getNextVehicle).filter(Objects::nonNull))
+                .toList();
 
         for (var vehicle : readyToGo) {
             boolean isClearToGo = true;

@@ -20,13 +20,10 @@ public abstract class Road {
 
     protected List<Lane> entryLanes;
 
-    protected List<Lane> exitLanes;
-
     public Road(Direction direction) {
         this.direction = direction;
         this.trafficLight = new TrafficLight();
         this.entryLanes = List.of(new Lane());
-        this.exitLanes = List.of(new Lane());
     }
 
 }
