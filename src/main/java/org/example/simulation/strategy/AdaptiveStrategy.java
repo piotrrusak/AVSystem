@@ -1,5 +1,6 @@
 package org.example.simulation.strategy;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.model.intersection.Intersection;
 import org.example.model.light.Signal;
@@ -9,7 +10,6 @@ import org.example.model.road.Road;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class AdaptiveStrategy implements TrafficLightStrategy {
 
     private int minGreenTime;
@@ -19,6 +19,7 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
 
     private boolean inTransitionState = false;
     private int currentStep = 0;
+    @Getter
     private int currentGreenDuration = minGreenTime;
 
     public AdaptiveStrategy(int minGreenTime, int maxGreenTime, int transitionTime, double vehicleWeight) {

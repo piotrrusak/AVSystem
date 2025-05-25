@@ -1,7 +1,7 @@
 package org.example;
 
-import org.example.io.JsonDataLoader;
-import org.example.io.JsonDataSaver;
+import org.example.io.DataLoader;
+import org.example.io.DataSaver;
 import org.example.model.IntersectionState;
 import org.example.model.Route;
 import org.example.model.command.AddVehicle;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CommandListWrapper commandListWrapper = JsonDataLoader.LoadJsonData("/home/piotr/IdeaProjects/AVSystem/src/main/resources/input_data.json");
+        CommandListWrapper commandListWrapper = DataLoader.LoadJsonData("/home/piotr/IdeaProjects/AVSystem/src/main/resources/input_data.json");
 
         IntersectionState intersectionState = new IntersectionState();
 
@@ -57,7 +57,7 @@ public class Main {
 
         }
 
-        JsonDataSaver.SaveJsonData("/home/piotr/IdeaProjects/AVSystem/src/main/resources/output_data.json", stepStatuses);
+        DataSaver.SaveJsonData("/home/piotr/IdeaProjects/AVSystem/src/main/resources/output_data.json", stepStatuses);
 
     }
 }

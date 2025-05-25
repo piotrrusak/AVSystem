@@ -6,7 +6,7 @@ import org.example.model.loader.CommandListWrapper;
 import java.io.File;
 import java.util.List;
 
-public class JsonDataLoader {
+public class DataLoader {
 
     public static CommandListWrapper LoadJsonData(String filename) {
         ObjectMapper mapper = new ObjectMapper();
