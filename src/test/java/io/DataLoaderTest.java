@@ -9,7 +9,7 @@ public class DataLoaderTest {
 
     @Test
     public void dataLoaderTest() {
-        CommandListWrapper commandListWrapper = DataLoader.LoadJsonData("/home/piotr/IdeaProjects/AVSystem/src/test/resources/input_data.json");
+        CommandListWrapper commandListWrapper = DataLoader.LoadJsonData("/src/test/resources/input_data.json");
 
         Assertions.assertEquals(8, commandListWrapper.getCommands().size());
     }
