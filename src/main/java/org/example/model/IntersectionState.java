@@ -9,17 +9,14 @@ import org.example.model.road.Direction;
 import org.example.model.road.Road;
 import org.example.model.vehicle.Vehicle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 @Setter
 public class IntersectionState {
 
     private Map<Direction, List<Vehicle>> waitingVehicles;
-    private Map<Direction, Signal> intersectionLightsState;
+    private Map<Direction, Map<Direction, Signal>> intersectionLightsState;
 
     public IntersectionState() {
         Map<Direction, List<Vehicle>> waitingVehicles = new HashMap<>();
@@ -27,10 +24,19 @@ public class IntersectionState {
             waitingVehicles.put(direction, new ArrayList<>());
         }
 
-        Map<Direction, Signal> roadLightsState = new HashMap<>();
-        for(Direction temp : Direction.values()) {
-            roadLightsState.put(temp, Signal.RED);
+        Map<Direction, Map<Direction, Signal>> roadLightsState = new HashMap<>();
+        for(Direction direction : Direction.values()) {
+            roadLightsState.put(direction, new HashMap<>());
         }
+        for(Direction direction : Direction.values()) {
+            for(Direction temp : Direction.values()) {
+                if(direction == temp) {
+                    continue;
+                }
+                roadLightsState.get(direction).put(temp, Signal.RED);
+            }
+        }
+
         this.intersectionLightsState = roadLightsState;
         this.waitingVehicles = waitingVehicles;
     }
@@ -44,6 +50,11 @@ public class IntersectionState {
     }
 
     public void updateIntersectionLightState(Road road) {
-        this.intersectionLightsState.put(road.getDirection(), road.getTrafficLight().getState());
+        for(Direction direction : Direction.values()) {
+            if(road.getDirection() == direction) {
+                continue;
+            }
+            intersectionLightsState.get(road.getDirection()).put(direction, road.getTrafficLights().get(direction).getState());
+        }
     }
 }

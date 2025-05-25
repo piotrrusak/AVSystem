@@ -10,20 +10,31 @@ public class EveryTickToggleStrategy implements TrafficLightStrategy {
 
     public void setup(Intersection intersection) {
         for(Road road : intersection.getRoads()) {
-            if(road.getDirection() == Direction.NORTH || road.getDirection() == Direction.SOUTH) {
-                road.getTrafficLight().setState(Signal.GREEN);
-            } else {
-                road.getTrafficLight().setState(Signal.RED);
+            for(Direction direction : Direction.values()) {
+                if(road.getDirection() == direction) {
+                    continue;
+                }
+                if(road.getDirection() == Direction.NORTH || road.getDirection() == Direction.SOUTH) {
+                    road.getTrafficLights().get(direction).setState(Signal.GREEN);
+                } else {
+                    road.getTrafficLights().get(direction).setState(Signal.RED);
+                }
+
+                intersection.updateLights();
             }
 
-            intersection.updateLights();
         }
     }
 
     public void step(Intersection intersection) {
 
         for(Road road : intersection.getRoads()) {
-            road.getTrafficLight().toggleNextState();
+            for(Direction direction : Direction.values()) {
+                if(road.getDirection() == direction) {
+                    continue;
+                }
+                road.getTrafficLights().get(direction).toggleNextState();
+            }
         }
 
         intersection.updateLights();

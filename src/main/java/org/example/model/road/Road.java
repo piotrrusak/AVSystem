@@ -16,14 +16,20 @@ public abstract class Road {
 
     protected Direction direction;
 
-    protected TrafficLight trafficLight;
+    private Map<Direction, TrafficLight> trafficLights;
 
     protected List<Lane> entryLanes;
 
     public Road(Direction direction) {
         this.direction = direction;
-        this.trafficLight = new TrafficLight();
         this.entryLanes = List.of(new Lane());
+        this.trafficLights = new HashMap<>();
+        for(Direction temp : Direction.values()) {
+            if(temp == direction) {
+                continue;
+            }
+            this.trafficLights.put(temp, new TrafficLight());
+        }
     }
 
 }

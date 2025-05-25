@@ -15,8 +15,8 @@ public class VehicleManager {
         List<Vehicle> leavingVehicles = new ArrayList<>();
 
         var readyToGo = intersection.getRoads().stream()
-                .filter(road -> road.getTrafficLight().getState() == Signal.GREEN)
                 .flatMap(road -> road.getEntryLanes().stream().map(Lane::getNextVehicle).filter(Objects::nonNull))
+                .filter(vehicle -> intersection.getIntersectionState().getIntersectionLightsState().get(vehicle.getRoute().getStart()).get(vehicle.getRoute().getEnd()) == Signal.GREEN)
                 .toList();
 
         for (var vehicle : readyToGo) {

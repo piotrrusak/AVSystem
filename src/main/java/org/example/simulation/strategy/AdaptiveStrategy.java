@@ -1,6 +1,7 @@
 package org.example.simulation.strategy;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.example.model.intersection.Intersection;
 import org.example.model.light.Signal;
@@ -8,7 +9,9 @@ import org.example.model.light.TrafficLight;
 import org.example.model.road.Direction;
 import org.example.model.road.Road;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class AdaptiveStrategy implements TrafficLightStrategy {
 
@@ -31,21 +34,30 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
 
     @Override
     public void setup(Intersection intersection) {
-        for (Road road : intersection.getRoads()) {
-            if (road.getDirection() == Direction.NORTH ||
-                    road.getDirection() == Direction.SOUTH) {
-                road.getTrafficLight().setState(Signal.GREEN);
-            } else {
-                road.getTrafficLight().setState(Signal.RED);
+        for(Road road : intersection.getRoads()) {
+            for(Direction direction : Direction.values()) {
+                if(road.getDirection() == direction) {
+                    continue;
+                }
+                if(road.getDirection() == Direction.NORTH || road.getDirection() == Direction.SOUTH) {
+                    road.getTrafficLights().get(direction).setState(Signal.GREEN);
+                } else {
+                    road.getTrafficLights().get(direction).setState(Signal.RED);
+                }
             }
+
         }
+
         intersection.updateLights();
         currentGreenDuration = calculateGreenTime(intersection);
     }
 
     @Override
     public void step(Intersection intersection) {
-        List<TrafficLight> trafficLights = intersection.getRoads().stream().map(Road::getTrafficLight).toList();
+        List<TrafficLight> trafficLights = intersection.getRoads().stream()
+                .flatMap(road -> Arrays.stream(Direction.values()).map(direction -> road.getTrafficLights().get(direction)))
+                .filter(Objects::nonNull)
+                .toList();
 
         if (currentStep >= currentGreenDuration && !inTransitionState) {
             trafficLights.forEach(TrafficLight::toggleNextState);
@@ -63,27 +75,24 @@ public class AdaptiveStrategy implements TrafficLightStrategy {
     }
 
     private int calculateGreenTime(Intersection intersection) {
-        int totalWaitingVehicles = 0;
-        Signal currentState = null;
-
-        for (Road road : intersection.getRoads()) {
-            Signal state = road.getTrafficLight().getState();
-            if (currentState == null) {
-                currentState = state;
-            }
-
-            if ((state == Signal.RED &&
-                    currentState == Signal.RED) ||
-                    (state == Signal.GREEN &&
-                            currentState == Signal.GREEN)) {
-                totalWaitingVehicles += intersection.getIntersectionState().getWaitingVehicles().get(road.getDirection()).size();
-            }
-        }
-
-
-        int additionalTime = (int) (totalWaitingVehicles * vehicleWeight);
-        int calculatedDuration = minGreenTime + additionalTime;
-
-        return Math.min(calculatedDuration, maxGreenTime);
+        return 1;
+//        int totalWaitingVehicles = 0;
+//        Signal currentState = null;
+//
+//        for (Road road : intersection.getRoads()) {
+//            Signal state = road.getTrafficLights().getState();
+//            if (currentState == null) {
+//                currentState = state;
+//            }
+//
+//            if ((state == Signal.RED && currentState == Signal.RED) || (state == Signal.GREEN && currentState == Signal.GREEN)) {
+//                totalWaitingVehicles += intersection.getIntersectionState().getWaitingVehicles().get(road.getDirection()).size();
+//            }
+//        }
+//
+//        int additionalTime = (int) (totalWaitingVehicles * vehicleWeight);
+//        int calculatedDuration = minGreenTime + additionalTime;
+//
+//        return Math.min(calculatedDuration, maxGreenTime);
     }
 }

@@ -17,9 +17,10 @@ Recruitment task for AVSystem
 ## Opis projektu
 
 Projekt przedstawia **symulację inteligentnych świateł drogowych** na skrzyżowaniu z czterema drogami dojazdowymi (północ, południe, wschód, zachód).
-System dynamicznie dostosowuje cykle świateł w zależności od aktualnego natężenia ruchu, bazując na strategii adaptacyjnej. Zaimplementowana jest również strategia
-zmieniająca światła co każdy krok symulacji. Zaimplementowany jest system pasów ruchu (pare pasów na jednej drodze dojazdowej do skrzyżowania). Zaimplementowany jest
-w miare rozbudowany pakiet testów pokrywających kluczowe funkcjonalności.
+System dynamicznie dostosowuje cykle świateł w zależności od aktualnego natężenia ruchu, bazując na strategii adaptacyjnej. Zaimplementowana są również dwie strategie
+zmieniająca światła co każdy krok symulacji. Zaimplementowany jest system pasów ruchu (pare pasów na jednej drodze dojazdowej do skrzyżowania).
+Każdy kierunek docelowy ma własne światła, co daje możliwość implementacji ciekawych strategii zmian świateł (Np taki w którym konflikty nie mogą nastąpić, tylko to na skrzyżowaniu z więcej niż jednym pasem ruchu.
+A w treści jest zapisane że ma być jeden, poza tym znacząco zmieniło by to wyniki). Zaimplementowany jest rozbudowany pakiet testów pokrywających kluczowe funkcjonalności.
 
 ## Główne założenia
 
