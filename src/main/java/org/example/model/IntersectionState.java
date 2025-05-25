@@ -46,5 +46,4 @@ public class IntersectionState {
     public void updateIntersectionLightState(Road road) {
         this.intersectionLightsState.put(road.getDirection(), road.getTrafficLight().getState());
     }
-
 }

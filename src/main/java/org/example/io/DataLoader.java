@@ -13,6 +13,7 @@ public class DataLoader {
         try {
             return mapper.readValue(new File(filename), CommandListWrapper.class);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Error while loading data from JSON.");
             System.exit(1);
         }

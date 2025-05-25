@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.model.IntersectionState;
+import org.example.model.light.Signal;
 import org.example.model.road.Direction;
 import org.example.model.road.OneLaneTwoWayRoad;
 import org.example.model.road.Road;
@@ -57,4 +58,11 @@ public class Intersection {
         }
     }
 
+    public Signal getIntersectionLightStateByDirection(Direction direction) {
+        return this.getIntersectionState().getIntersectionLightsState().get(direction);
+    }
+
+    public List<Vehicle> getWaitingVehiclesByDirection(Direction direction) {
+        return this.getIntersectionState().getWaitingVehicles().get(direction);
+    }
 }

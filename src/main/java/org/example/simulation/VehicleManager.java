@@ -17,8 +17,8 @@ public class VehicleManager {
         List<Vehicle> leavingVehicles = new ArrayList<>();
 
         var readyToGo = Arrays.stream(Direction.values())
-                .filter(direction -> intersection.getIntersectionState().getIntersectionLightsState().get(direction).equals(Signal.GREEN))
-                .flatMap(key -> intersection.getIntersectionState().getWaitingVehicles().get(key).stream()).toList();
+                .filter(direction -> intersection.getIntersectionLightStateByDirection(direction).equals(Signal.GREEN))
+                .flatMap(key -> intersection.getWaitingVehiclesByDirection(key).stream()).toList();
 
         for (var vehicle : readyToGo) {
             boolean isClearToGo = true;

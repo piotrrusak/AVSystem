@@ -22,7 +22,14 @@ import java.util.stream.Collectors;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        CommandListWrapper commandListWrapper = DataLoader.LoadJsonData("/home/piotr/IdeaProjects/AVSystem/src/main/resources/input_data.json");
+        if (args.length < 2) {
+            System.exit(1);
+        }
+
+        String inputPath = args[0];
+        String outputPath = args[1];
+
+        CommandListWrapper commandListWrapper = DataLoader.LoadJsonData(inputPath);
         IntersectionState intersectionState = new IntersectionState();
         Intersection intersection = new Intersection(intersectionState);
         TrafficLightStrategy strategy = new AdaptiveStrategy(1, 10, 1, 1);
@@ -31,6 +38,8 @@ public class Main {
 
         VehicleManager vehicleManager = new VehicleManager();
         StepStatuses stepStatuses = new StepStatuses();
+
+        boolean firstStep = true;
 
         for(Command command : commandListWrapper.getCommands()) {
 
@@ -42,6 +51,11 @@ public class Main {
                                                                            new Route(((AddVehicle) command).getStartRoadAsDirection(), ((AddVehicle) command).getEndRoadAsDirection())
                 ));
             } else {
+
+                if(firstStep) {
+                    strategy.setup(intersection);
+                    firstStep = false;
+                }
 
                 // Zmiana statusu pojazdów, które w tym kroku opuszczą skrzyżowanie na IN_INTERSECTION
                 List<Vehicle> leftVehicles = vehicleManager.step(intersection);
@@ -59,7 +73,7 @@ public class Main {
 
         }
 
-        DataSaver.SaveJsonData("/home/piotr/IdeaProjects/AVSystem/src/main/resources/output_data.json", stepStatuses);
+        DataSaver.SaveJsonData(outputPath, stepStatuses);
 
     }
 }
