@@ -3,7 +3,7 @@
 - Java 21
 - Maven 3.6.3
 
-# AVSystem – Inteligentne światła drogowe
+# Inteligentne światła drogowe
 
 ## Opis projektu
 
