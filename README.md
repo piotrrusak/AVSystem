@@ -140,10 +140,10 @@ System:
 
 #### Parametry konfiguracyjne
 
-- minGreenTime: Minimalny czas zielonego światła (domyślnie 5)
-- maxGreenTime: Maksymalny czas zielonego światła (domyślnie 15)
-- transitionTime: Czas żółtego światła (domyślnie 2)
-- vehicleWeight: Waga pojedynczego pojazdu (domyślnie 1)
+- minGreenTime: Minimalny czas zielonego światła
+- maxGreenTime: Maksymalny czas zielonego światła
+- transitionTime: Czas żółtego światła
+- vehicleWeight: Waga pojedynczego pojazdu
 
 ### Strategia zmiany co tick (EveryTickToggleStrategy)
 
